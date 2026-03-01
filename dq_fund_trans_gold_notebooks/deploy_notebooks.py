@@ -1,8 +1,9 @@
 """
-Deploy DQ notebooks to Databricks workspace via REST API.
+Deploy DQ notebooks for fund_trans_gold to Databricks workspace via REST API.
 Reads credentials from ~/.databrickscfg.
-Uploads 4 notebooks to /Users/andre.r23@gmx.net/DQ_Business/
-Creates a Databricks Job with 3 tasks (setup -> apply_dq -> aggregate).
+Uploads 4 notebooks to /Users/andre.r23@gmx.net/DQ_Business_fund_trans_gold/
+Creates a Databricks Job with 4 tasks (setup -> apply_dq -> aggregate -> dashboard).
+Schedule: daily at 07:00 UTC.
 """
 import configparser, os, sys, json, base64
 import urllib.request, urllib.error
@@ -40,7 +41,7 @@ def db_request(method, path, body=None):
         raise
 
 # -- Create workspace directory ---------------------------------------------
-workspace_dir = "DQ_Business"
+workspace_dir = "/Users/andre.r23@gmx.net/DQ_Business_fund_trans_gold"
 print(f"\nCreating workspace directory: {workspace_dir}")
 try:
     db_request("POST", "workspace/mkdirs", {"path": workspace_dir})
@@ -82,7 +83,7 @@ CATALOG    = "databricks_snippets_7405610928938750"
 DQ_SCHEMA  = "dbdemos_dq_business_arausch"
 SRC_CAT    = "databricks_snippets_7405610928938750"
 SRC_SCHEMA = "dbdemos_fsi_credit"
-TABLE      = "customer_gold"
+TABLE      = "fund_trans_gold"
 
 common_params = {
     "catalog":      CATALOG,
@@ -92,6 +93,11 @@ common_params = {
 
 job_payload = {
     "name": f"DQ_{TABLE}",
+    "schedule": {
+        "quartz_cron_expression": "0 0 7 * * ?",
+        "timezone_id": "UTC",
+        "pause_status": "UNPAUSED"
+    },
     "tasks": [
         {
             "task_key": "setup",
@@ -153,7 +159,8 @@ else:
     job_id = result["job_id"]
 
 print(f"Job ID: {job_id}")
-print(f"\nDone. To run the job:")
+print(f"\nSchedule: daily at 07:00 UTC")
+print(f"\nDone. To run the job manually:")
 print(f"  POST {host}/api/2.0/jobs/run-now  {{\"job_id\": {job_id}}}")
 print(f"\nOr open in browser:")
 print(f"  {host}#job/{job_id}")
