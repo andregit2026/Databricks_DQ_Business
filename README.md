@@ -289,10 +289,6 @@ catalog      = f"dbdemos_{username}"
 
 # Create catalog if it does not exist
 spark.sql(f"CREATE CATALOG IF NOT EXISTS {catalog}")
-
-# Install the pipeline-bike demo
-import dbdemos
-dbdemos.install("pipeline-bike", catalog=catalog, schema="dbdemos_pipeline_bike")
 ```
 
 > `dbdemos.install()` runs inside Databricks — it cannot be executed as a local script.
