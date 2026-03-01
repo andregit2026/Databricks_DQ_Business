@@ -1,4 +1,4 @@
-# AI Coding Agent for Databricks
+# AI Coding Agent for Databricks Custom Skill DQ-Business
 
 An AI-powered coding agent that builds, tests, and deploys Databricks pipelines from natural language prompts — using Claude Code with the Databricks MCP server.
 
