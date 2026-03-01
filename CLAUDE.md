@@ -173,6 +173,7 @@ Databricks Job ID (reporting only - 02+03): `810857234872302`
 Workspace path: `/Users/andre.r23@gmx.net/DQ_Business/`
 Catalog/Schema: `databricks_snippets_7405610928938750.dbdemos_dq_business_arausch`
 Local notebooks: `AI_Coding_Agent_for_Databricks/dq_customer_gold_notebooks/`
+GitHub: `https://github.com/andregit2026/Databricks_DQ_Business`
 AI/BI Dashboard ID: `01f1153e10ac1b83b595fd7dd69003ca`
 SQL Warehouse: `94cbf5bc4ec73e30` (serverless_x_small)
 
