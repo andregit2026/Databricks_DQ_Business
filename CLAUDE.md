@@ -179,6 +179,28 @@ SQL Warehouse: `94cbf5bc4ec73e30` (serverless_x_small)
 
 ---
 
+# DQ Pipeline - fund_trans_gold
+
+Databricks Job ID: `1034780455321659`
+Job name: `DQ_fund_trans_gold` (target — currently deployed as `DQ_BCBS239_SolvencyII_fund_trans_gold`)
+Schedule: Daily 07:00 UTC
+Workspace path: `/Users/andre.r23@gmx.net/DQ_Business_fund_trans_gold/`
+Catalog/Schema: `databricks_snippets_7405610928938750.dbdemos_dq_business_arausch`
+Local notebooks: `AI_Coding_Agent_for_Databricks/dq_fund_trans_gold_notebooks/`
+AI/BI Dashboard ID: `01f115c0d9b217759406cd174e5d416c`
+SQL Warehouse: `94cbf5bc4ec73e30` (serverless_x_small)
+
+### Latest Run Results (2026-03-01 22:26)
+
+| Metric | Value |
+|--------|-------|
+| Overall Pass % | **19.98%** (data sparsity — most rows have NULL metrics) |
+| Total Checks | 1,800,000 (18 rules x 100,000 rows) |
+| Rules | 18 (IDs 201-218) |
+| Only breach with data issues | All except UNIQUENESS (cust_id = 100%) |
+
+---
+
 ## Latest Run Results (2026-03-01 07:23)
 
 | Metric | Value |
