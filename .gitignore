@@ -1,0 +1,26 @@
+# Claude Code local settings (machine-specific, never commit)
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials (never commit)
+.databrickscfg
+*.env
+*.token
+
+# Auto-memory (session-specific, not for sharing)
+memory/
+
+# Environment-specific runtime IDs
+dq_customer_gold_notebooks/job_id.txt
+dq_customer_gold_notebooks/run_id.txt
