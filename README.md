@@ -1,8 +1,83 @@
 # Using Claude Code as an AI Coding Agent for creating a Databricks Custom Skill DQ-Business
 
-An AI-powered coding agent that builds, tests, and deploys Databricks pipelines from natural language prompts — using Claude Code with the Databricks MCP server.
-
 **GitHub:** https://github.com/andregit2026/Databricks_DQ_Business
+
+## DQ Pipeline - Data Model
+
+The diagram below shows all tables written by the DQ pipeline and their relationships.
+
+![DQ Pipeline Data Model](dq_data_model.png)
+
+| Table | Written by | Purpose |
+|-------|-----------|---------|
+| `dq_rules_generic` | `00_setup` | Generic rule catalogue (BCBS239 / Solvency II rule types) |
+| `dq_validation_request` | `00_setup` | Validation request owner and metadata |
+| `dq_rule_mappings` | `00_setup` | Maps generic rules to specific source fields with thresholds |
+| `dq_results` | `02_aggregate_dq_results` | Append-only audit log - one row per rule per run |
+| `customer_gold_dq` | `01_apply_dq_rules` | Source table enriched with `DQ_RESULT` string column |
+
+### Sample Data - `customer_gold` Entity
+
+The tables below show live sample data from a single DQ pipeline run against the `customer_gold` table (49,818 records evaluated, 2026-03-01).
+
+#### AI/BI Dashboard
+
+![Customer Gold DQ Dashboard](customer_gold_dashboard.png)
+
+> The AI/BI dashboard visualises pass rates by DQ category, trend lines over time, and per-rule drill-down for the `customer_gold` entity.
+
+---
+
+#### `dq_rules_generic` - Generic Rule Catalogue (10 of 13 rules)
+
+| ID | Rule | Category | Description | BCBS239 | Solvency II |
+|----|------|----------|-------------|---------|-------------|
+| 1 | RULE_1_DATE_NOT_NULL | COMPLETENESS | Date Not Null | P3,P4 | Pillar1,QRT |
+| 2 | RULE_2_STRING_NOT_NULL | COMPLETENESS | String Not Null | P3,P4 | Pillar1,QRT |
+| 3 | RULE_3_NUMERIC_NOT_NULL | COMPLETENESS | Numeric Not Null | P3,P4 | Pillar1 |
+| 4 | RULE_10_NUMERIC_NON_NEGATIVE | ACCURACY | Numeric Non-Negative | P3 | Pillar1 |
+| 5 | RULE_11_NUMERIC_POSITIVE | ACCURACY | Numeric Positive | P3 | Pillar1 |
+| 6 | RULE_12_DATE_NOT_FUTURE | ACCURACY | Date Not in Future | P3 | QRT |
+| 7 | RULE_13_DATE_NOT_PAST_LIMIT | ACCURACY | Date Within Reasonable Past | P3,P5 | Pillar1 |
+| 8 | RULE_20_ISO_COUNTRY_CODE | VALIDITY | ISO 3166-1 Alpha-2 Country Code | P3 | QRT |
+| 9 | RULE_21_BOOLEAN_FLAG | VALIDITY | Boolean Flag (0 or 1) | P3 | Pillar2 |
+| 10 | RULE_30_UNIQUE_IDENTIFIER | UNIQUENESS | Unique Identifier | P3 | Pillar1 |
+
+---
+
+#### `dq_rule_mappings` - Rule-to-Field Mappings for `customer_gold` (first 10 of 25)
+
+| Mapping ID | DQ Rule | Source Field | Description | Threshold | Category | Owner Dept |
+|-----------|---------|--------------|-------------|-----------|----------|------------|
+| 101 | DQ_101_UNIQUE_IDENTIFIER_id | id | id must be unique across all customer records | 100% | UNIQUENESS | Dept. Master Data |
+| 102 | DQ_102_UNIQUE_IDENTIFIER_cust_id | cust_id | cust_id must be unique | 100% | UNIQUENESS | Dept. Master Data |
+| 103 | DQ_103_UNIQUE_IDENTIFIER_email | email | email must be unique - no duplicate customer records | 100% | UNIQUENESS | Dept. Master Data |
+| 104 | DQ_104_NUMERIC_NOT_NULL_id | id | id must not be NULL | 100% | COMPLETENESS | Dept. Master Data |
+| 105 | DQ_105_NUMERIC_NOT_NULL_cust_id | cust_id | cust_id must not be NULL | 100% | COMPLETENESS | Dept. Master Data |
+| 106 | DQ_106_STRING_NOT_NULL_first_name | first_name | first_name must not be NULL or empty | 100% | COMPLETENESS | Dept. Master Data |
+| 107 | DQ_107_STRING_NOT_NULL_last_name | last_name | last_name must not be NULL or empty | 100% | COMPLETENESS | Dept. Master Data |
+| 108 | DQ_108_STRING_NOT_NULL_email | email | email must not be NULL or empty | 100% | COMPLETENESS | Dept. Master Data |
+| 109 | DQ_109_STRING_NOT_NULL_document_id | document_id | document_id must not be NULL - required for KYC | 100% | COMPLETENESS | Dept. Master Data |
+| 110 | DQ_110_DATE_NOT_NULL_join_date | join_date | join_date must not be NULL | 100% | COMPLETENESS | Dept. Master Data |
+
+---
+
+#### `dq_results` - Audit Log (first 10 rows from `customer_gold` run, 2026-03-01)
+
+| Run ID | Execution Timestamp | DQ Rule | Relevant Records | Passed |
+|--------|---------------------|---------|-----------------|--------|
+| 1 | 2026-03-01 19:22:37 UTC | DQ_101_UNIQUE_IDENTIFIER_id | 49,818 | 49,818 |
+| 2 | 2026-03-01 19:22:37 UTC | DQ_102_UNIQUE_IDENTIFIER_cust_id | 49,818 | 49,818 |
+| 3 | 2026-03-01 19:22:37 UTC | DQ_103_UNIQUE_IDENTIFIER_email | 49,818 | 49,818 |
+| 4 | 2026-03-01 19:22:37 UTC | DQ_104_NUMERIC_NOT_NULL_id | 49,818 | 49,818 |
+| 5 | 2026-03-01 19:22:37 UTC | DQ_105_NUMERIC_NOT_NULL_cust_id | 49,818 | 49,818 |
+| 6 | 2026-03-01 19:22:37 UTC | DQ_106_STRING_NOT_NULL_first_name | 49,818 | 49,818 |
+| 7 | 2026-03-01 19:22:37 UTC | DQ_107_STRING_NOT_NULL_last_name | 49,818 | 49,818 |
+| 8 | 2026-03-01 19:22:37 UTC | DQ_108_STRING_NOT_NULL_email | 49,818 | 49,818 |
+| 9 | 2026-03-01 19:22:37 UTC | DQ_109_STRING_NOT_NULL_document_id | 49,818 | **46,769** |
+| 10 | 2026-03-01 19:22:37 UTC | DQ_110_DATE_NOT_NULL_join_date | 49,818 | 49,818 |
+
+> **Note on row 9**: `document_id` has 3,049 NULL values - the only failing rule in this run, reflecting a known KYC data gap.
 
 ---
 
@@ -384,17 +459,3 @@ Generate the DQ pipeline with German object names and comments.
 17 built-in skills cover the full Databricks development lifecycle — from data engineering and ML pipelines to SQL, streaming, vector search, and regulatory data quality frameworks. See `CLAUDE.md` for the full skill list.
 
 ---
-
-## DQ Pipeline - Data Model
-
-The diagram below shows all tables written by the DQ pipeline and their relationships.
-
-![DQ Pipeline Data Model](dq_data_model.png)
-
-| Table | Written by | Purpose |
-|-------|-----------|---------|
-| `dq_rules_generic` | `00_setup` | Generic rule catalogue (BCBS239 / Solvency II rule types) |
-| `dq_validation_request` | `00_setup` | Validation request owner and metadata |
-| `dq_rule_mappings` | `00_setup` | Maps generic rules to specific source fields with thresholds |
-| `dq_results` | `02_aggregate_dq_results` | Append-only audit log - one row per rule per run |
-| `customer_gold_dq` | `01_apply_dq_rules` | Source table enriched with `DQ_RESULT` string column |
