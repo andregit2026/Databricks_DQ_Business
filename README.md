@@ -251,6 +251,7 @@ The DQ framework in this project runs on the **pipeline-bike** demo dataset prov
 This must be installed once in your workspace before running any DQ notebooks.
 
 import dbdemos
+
 dbdemos.install("pipeline-bike", catalog=catalog, schema="dbdemos_pipeline_bike")
 
 
