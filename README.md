@@ -2,6 +2,8 @@
 
 An AI-powered coding agent that builds, tests, and deploys Databricks pipelines from natural language prompts — using Claude Code with the Databricks MCP server.
 
+**GitHub:** https://github.com/andregit2026/Databricks_DQ_Business
+
 ---
 
 ## Part 1 - Installation (Windows)
