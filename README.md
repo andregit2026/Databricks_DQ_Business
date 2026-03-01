@@ -247,12 +247,12 @@ After saving `mcp.json`, restart Claude Code (close and reopen VS Code or the te
 
 ## Demo Data Prerequisites
 
-The DQ framework in this project runs on the **pipeline-bike** demo dataset provided by Databricks.
+The DQ framework in this project runs on the **lakehouse-fsi-credit** demo dataset provided by Databricks.
 This must be installed once in your workspace before running any DQ notebooks.
 
 ```powershell
 import dbdemos
-dbdemos.install("pipeline-bike", catalog=catalog, schema="dbdemos_pipeline_bike")
+dbdemos.install('lakehouse-fsi-credit', catalog='databricks_snippets_7405610928938750', schema='dbdemos_fsi_credit', create_schema=True)
 ```
 
 ### Why a personal catalog?
