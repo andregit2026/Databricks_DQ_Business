@@ -345,8 +345,8 @@ no manual input or API calls required.
 
 ### What it installs
 
-- Catalog `dbdemos_<username>` (created if it does not exist)
-- Schema `dbdemos_<username>.dbdemos_uc_lineage` with the `bikes` Delta table and pipeline
+- Catalog `dbdemos` (created if it does not exist)
+- Schema `dbdemos.dbdemos_fsi_credit` with the `fsi-credit` Delta table and pipeline
 
 ### Option A - Run the setup notebook (recommended)
 
@@ -367,7 +367,7 @@ spark.sql(f"CREATE CATALOG IF NOT EXISTS {catalog}")
 ```
 
 > `dbdemos.install()` runs inside Databricks — it cannot be executed as a local script.
-> Demo source: https://notebooks.databricks.com/demos/pipeline-bike/index.html
+> Demo source: [https://notebooks.databricks.com/demos/pipeline-bike/index.html](https://www.databricks.com/resources/demos/tutorials/lakehouse-platform/lakehouse-credit-decisioning)
 
 ---
 
