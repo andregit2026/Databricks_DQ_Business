@@ -62,7 +62,7 @@ Two prefixes are used:
 - **databricks-general-skill-genie** — Genie Spaces for conversational SQL-based data exploration.
 
 ### databricks-custom-skill  *(1 skill)*
-- **databricks-custom-skill-dq-professional-bcbs239-solvency2** — Data quality frameworks (BCBS239/Solvency II).
+- **databricks-custom-skill-dq-business** — Data quality frameworks (leaned on BCBS239/Solvency II).
 
 ## Execution Rules
 
