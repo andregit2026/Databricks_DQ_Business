@@ -1,5 +1,5 @@
 ---
-name: databricks-unity-catalog
+name: databricks-general-skill-unity-catalog
 description: Manage Unity Catalog resources including catalogs, schemas, and tables. Handles discovery, creation, updates, and deletions with proper naming conventions and governance. Use when exploring catalogs, creating schemas, managing tables, or setting up data governance.
 allowed-tools:
   - Read

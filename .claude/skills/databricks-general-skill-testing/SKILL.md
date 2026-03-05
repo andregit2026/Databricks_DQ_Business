@@ -1,5 +1,5 @@
 ---
-name: databricks-testing
+name: databricks-general-skill-testing
 description: Execute code on Databricks clusters using MCP Command Execution API. Supports stateless quick validation and stateful iterative development. Use when testing Python/SQL code on clusters, debugging pipelines, or validating transformations.
 allowed-tools:
   - Read

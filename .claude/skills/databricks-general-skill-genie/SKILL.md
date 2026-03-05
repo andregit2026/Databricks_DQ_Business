@@ -1,5 +1,5 @@
 ---
-name: databricks-genie
+name: databricks-general-skill-genie
 description: "Create and query Databricks Genie Spaces for natural language SQL exploration. Use when building Genie Spaces or asking questions via the Genie Conversation API."
 ---
 

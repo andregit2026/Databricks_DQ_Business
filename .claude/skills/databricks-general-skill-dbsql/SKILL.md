@@ -1,5 +1,5 @@
 ---
-name: databricks-dbsql
+name: databricks-general-skill-dbsql
 description: >-
   Databricks SQL (DBSQL) advanced features and SQL warehouse capabilities.
   This skill MUST be invoked when the user mentions: "DBSQL", "Databricks SQL",

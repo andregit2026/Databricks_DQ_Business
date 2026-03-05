@@ -1,5 +1,5 @@
 ---
-name: databricks-synthetic-data-generation
+name: databricks-general-skill-synthetic-data-generation
 description: "Generate realistic synthetic data using Faker and Spark, with non-linear distributions, integrity constraints, and save to Databricks. Use when creating test data, demo datasets, or synthetic tables."
 ---
 

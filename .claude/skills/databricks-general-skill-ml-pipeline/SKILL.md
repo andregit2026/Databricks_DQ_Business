@@ -1,5 +1,5 @@
 ---
-name: databricks-ml-pipeline
+name: databricks-general-skill-ml-pipeline
 description: End-to-end machine learning pipelines on Databricks including data exploration, feature engineering, model training with hyperparameter optimization, MLflow experiment tracking, model registration to Unity Catalog, and deployment as DABs. Use when building ML workflows, training models, or deploying ML pipelines.
 allowed-tools:
   - Bash

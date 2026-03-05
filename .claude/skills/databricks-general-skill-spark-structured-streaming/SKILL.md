@@ -1,5 +1,5 @@
 ---
-name: databricks-spark-structured-streaming
+name: databricks-general-skill-spark-structured-streaming
 description: Comprehensive guide to Spark Structured Streaming for production workloads. Use when building streaming pipelines, implementing real-time data processing, handling stateful operations, or optimizing streaming performance.
 ---
 

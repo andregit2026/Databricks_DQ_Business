@@ -1,5 +1,5 @@
 ---
-name: databricks-bundle-deploy
+name: databricks-general-skill-bundle-deploy
 description: Package and deploy Databricks Asset Bundles with proper parameterization, multi-environment support, and serverless compute. Handles project structure, databricks.yml generation, validation, and deployment. Use when packaging tested code for production, deploying pipelines, or managing multi-environment deployments.
 allowed-tools:
   - Bash

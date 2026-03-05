@@ -1,5 +1,5 @@
 ---
-name: databricks-model-serving
+name: databricks-general-skill-model-serving
 description: "Deploy and query Databricks Model Serving endpoints. Use when (1) deploying MLflow models or AI agents to endpoints, (2) creating ChatAgent/ResponsesAgent agents, (3) integrating UC Functions or Vector Search tools, (4) querying deployed endpoints, (5) checking endpoint status. Covers classical ML models, custom pyfunc, and GenAI agents."
 ---
 

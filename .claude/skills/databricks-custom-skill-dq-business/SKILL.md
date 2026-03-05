@@ -1,5 +1,5 @@
 ---
-name: databricks-dq-professionally
+name: databricks-custom-skill-dq-business
 description: Professional data quality framework on Databricks. Implements a generic rule registry, rule-to-field mappings, dynamic rule application, and enriched DQ output tables with a single DQ_RESULT column (e.g. "RULE_101: 1 | RULE_102: 0 | RULE_103: NULL"). Automatically sets up the DQ schema, copies source tables, and applies mapped DQ rules. Use when building rule-based DQ pipelines.
 allowed-tools:
   - Bash

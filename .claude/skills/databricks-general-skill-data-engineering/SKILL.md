@@ -1,5 +1,5 @@
 ---
-name: databricks-data-engineering
+name: databricks-general-skill-data-engineering
 description: Production data engineering pipelines following medallion architecture (Bronze/Silver/Gold layers) with data ingestion, transformation, quality checks, Delta Lake optimization, and orchestration. Use when building ETL pipelines, medallion architecture, data lakes, or data transformation workflows.
 allowed-tools:
   - Bash
