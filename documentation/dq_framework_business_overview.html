@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DQ Framework - Business Overview</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --primary: #e85b0e;
+      --green:   #2d7a2d;
+      --blue:    #2d4fa3;
+      --gold:    #a37a2d;
+      --red:     #a32d2d;
+      --purple:  #5050a0;
+      --bg:      #f7f8fa;
+      --card:    #ffffff;
+      --border:  #e2e5ea;
+      --text:    #1a1d23;
+      --muted:   #5a6070;
+      --code-bg: #f0f2f5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding-bottom: 72px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1a1d23 0%, #2c3142 100%);
+      color: #fff;
+      padding: 40px 48px 32px;
+      border-bottom: 4px solid var(--primary);
+    }
+    header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+    header .sub { color: #a0aab8; margin-top: 6px; font-size: 0.95rem; }
+    header .meta { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; }
+    header .tag {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      color: #d0dbe8;
+    }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+    /* Section headings */
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 44px 0 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h3 { font-size: 1rem; font-weight: 700; color: var(--muted); margin: 26px 0 10px; }
+    h4 { font-size: 0.9rem; font-weight: 700; margin: 18px 0 8px; }
+
+    /* Value proposition strip */
+    .value-strip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-top: 28px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .value-strip strong { color: var(--primary); }
+
+    /* Stat cards */
+    .stats { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+    }
+    .stat .num { font-size: 1.9rem; font-weight: 800; color: var(--primary); }
+    .stat .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+    /* Tables */
+    .tbl-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); margin-top: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; background: var(--card); }
+    thead { background: #f0f2f5; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tbody tr:nth-child(even) { background: #fafbfc; }
+    tbody tr:hover { background: #f0f4ff; }
+    td { padding: 9px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+    code {
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      background: var(--code-bg);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.82rem;
+    }
+
+    /* Category badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .b-comp { background:#e8f5ee; color:#2d6e45; border:1px solid #a8d8b8; }
+    .b-acc  { background:#fff8e0; color:#7a6010; border:1px solid #e8d888; }
+    .b-val  { background:#e8f0f6; color:#3a6080; border:1px solid #b8d0e4; }
+    .b-uniq { background:#fce8e8; color:#8a2020; border:1px solid #e8b8b8; }
+    .b-cons { background:#f3e8fc; color:#6a2080; border:1px solid #d8b8e8; }
+
+    /* Principle badges */
+    .bcbs  { background:#fff0e0; color:#965010; border:1px solid #f0c888; border-radius:4px; padding:1px 6px; font-size:0.75rem; }
+    .solv  { background:#e0e8ff; color:#204080; border:1px solid #a0b8e0; border-radius:4px; padding:1px 6px; font-size:0.75rem; }
+
+    /* Entity cards */
+    .entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 16px; margin-top: 16px; }
+    .entity-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .entity-card .ec-header { padding: 14px 18px; font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
+    .ec-cg  .ec-header { background: #e8f5ee; border-bottom: 1px solid #c0e0c0; color: #1a5a1a; }
+    .ec-ftg .ec-header { background: #e8f0fb; border-bottom: 1px solid #b0c8f0; color: #1a2a6a; }
+    .entity-card .ec-body { padding: 14px 18px; }
+    .ec-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.875rem; }
+    .ec-row:last-child { border-bottom: none; }
+    .ec-row .k { color: var(--muted); }
+    .ec-row .v { font-weight: 600; text-align: right; }
+    .pass-good { color: #2d7a2d; }
+    .pass-warn { color: #a37a2d; }
+
+    /* Pipeline task strip */
+    .task-strip { display: flex; gap: 0; margin-top: 16px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .task {
+      flex: 1;
+      padding: 16px 14px;
+      text-align: center;
+      font-size: 0.82rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .task:last-child { border-right: none; }
+    .task .t-num { font-size: 1.3rem; font-weight: 800; display: block; margin-bottom: 6px; }
+    .task .t-name { font-weight: 700; font-size: 0.88rem; display: block; margin-bottom: 4px; }
+    .task .t-nb { font-size: 0.75rem; color: var(--muted); font-family: monospace; display: block; margin-bottom: 6px; }
+    .task .t-desc { font-size: 0.78rem; color: var(--muted); }
+    .task-1 { background: #e8f5ee; }
+    .task-2 { background: #e8f0fb; }
+    .task-3 { background: #fff8e1; }
+    .task-4 { background: #fce8e8; }
+
+    /* Architecture box */
+    .arch-box {
+      background: #1a1d23;
+      color: #e0e6f0;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.82rem;
+      padding: 24px 28px;
+      border-radius: 10px;
+      margin-top: 14px;
+      line-height: 1.9;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .arch-box .c1 { color: #78d898; }
+    .arch-box .c2 { color: #e8d070; }
+    .arch-box .c3 { color: #88b8d8; }
+    .arch-box .cm { color: #5a6888; }
+
+    /* Code block */
+    .code-block {
+      background: #1a1d23;
+      color: #c8d8e8;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.82rem;
+      padding: 20px 24px;
+      border-radius: 10px;
+      margin-top: 14px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+    .code-block .cm { color: #5a6888; }
+    .code-block .kw { color: #88b8d8; }
+    .code-block .st { color: #e8d070; }
+
+    /* Mermaid */
+    .mermaid-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-top: 16px;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    /* Reg table */
+    .reg-badge-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    footer { margin-top: 60px; text-align: center; color: var(--muted); font-size: 0.8rem; padding: 0 24px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>DQ Framework - Business Overview</h1>
+  <div class="sub">Databricks DQ Business &mdash; BCBS239 / Solvency II Compliance</div>
+  <div class="meta">
+    <span class="tag">Platform: Databricks Lakehouse (Azure)</span>
+    <span class="tag">Schema: dbdemos_dq_business_arausch</span>
+    <span class="tag">Entities: 2 live</span>
+    <span class="tag">Generated: 2026-03-06</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- What is it -->
+  <div class="value-strip" style="margin-top:32px;">
+    <strong>What is the DQ Framework?</strong><br>
+    An automated, regulatory-grade <strong>Data Quality monitoring system</strong> built on Databricks. It continuously validates critical business data against a library of reusable rules aligned with <strong>BCBS239</strong> (Basel III risk data aggregation principles) and <strong>Solvency II</strong> reporting requirements. Every validated dataset gets a pass/fail score per rule, an overall DQ percentage, a categorised breach register, and a live AI/BI dashboard &mdash; all refreshed automatically on a configurable schedule.
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="num">13</div><div class="lbl">Generic rules in library</div></div>
+    <div class="stat"><div class="num">2</div><div class="lbl">Entities monitored</div></div>
+    <div class="stat"><div class="num">43</div><div class="lbl">Rule mappings total</div></div>
+    <div class="stat"><div class="num">4</div><div class="lbl">DQ categories</div></div>
+    <div class="stat"><div class="num">~3M</div><div class="lbl">DQ checks per run</div></div>
+    <div class="stat"><div class="num">Daily</div><div class="lbl">Automated scheduling</div></div>
+  </div>
+
+  <!-- Architecture -->
+  <h2>&#9881; Framework Architecture</h2>
+  <div class="arch-box"><span class="cm">-- The DQ Framework sits on top of the Gold layer of the Medallion architecture</span>
+
+<span class="c3">Bronze  -->  Silver  -->  Gold</span>  <span class="cm">&lt;-- DQ Framework reads clean, curated Gold data</span>
+                              |
+                              v
+<span class="c1">DQ Schema  (dbdemos_dq_business_arausch)</span>
+<span class="c1">  dq_rules_generic        </span><span class="cm">Generic rule catalogue (13 types, BCBS239/SolvencyII metadata)</span>
+<span class="c1">  dq_validation_request   </span><span class="cm">One row per entity - request ID, owner, department</span>
+<span class="c1">  dq_rule_mappings        </span><span class="cm">Field-level rule assignments with thresholds and owners</span>
+<span class="c1">  dq_results              </span><span class="cm">Append-only audit log - one row per rule per run (forever)</span>
+<span class="c1">  &lt;entity&gt;_dq            </span><span class="cm">Source rows + DQ_RESULT pipe-delimited string column</span>
+                              |
+                              v
+<span class="c2">AI/BI Dashboard (one per entity)</span>
+<span class="c2">  Overall Pass %  |  Failed Checks  |  Total Checks</span>
+<span class="c2">  Pass % by Category (bar chart)</span>
+<span class="c2">  Per-Rule Detail table (all rules + PASS / BREACH / SKIPPED status)</span>
+<span class="c2">  Breach Register (rules below threshold, ordered by worst first)</span></div>
+
+  <!-- Business Value -->
+  <h2>&#128200; Business Value</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Capability</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Regulatory alignment</strong></td><td>Rules directly mapped to BCBS239 principles (P2-P5) and Solvency II pillars</td></tr>
+        <tr><td><strong>Reusable rule library</strong></td><td>13 generic rule types - write once, apply to any entity without code changes</td></tr>
+        <tr><td><strong>Zero-downtime onboarding</strong></td><td>New entity live in minutes via a single Python command</td></tr>
+        <tr><td><strong>Full audit trail</strong></td><td>Append-only <code>dq_results</code> table captures every run permanently for trend analysis</td></tr>
+        <tr><td><strong>Self-service reporting</strong></td><td>AI/BI dashboard per entity - deployed and published automatically, no BI tool required</td></tr>
+        <tr><td><strong>Configurable thresholds</strong></td><td>Each rule carries an owner, department, and pass threshold (e.g. 99% or 100%)</td></tr>
+        <tr><td><strong>Scheduled monitoring</strong></td><td>Daily automated runs, breach alerts surfaced immediately in the dashboard</td></tr>
+        <tr><td><strong>Multi-entity, shared registry</strong></td><td>All entities share the same rule and result tables - zero duplication of infrastructure</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Rule Library -->
+  <h2>&#128218; Generic Rule Library</h2>
+  <p style="color:var(--muted); font-size:0.9rem; margin-bottom:14px;">Rules are defined once and reused across all entities. New entities can extend the library with additional generic rule types.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rule</th>
+          <th>Category</th>
+          <th>Business Check</th>
+          <th>BCBS239</th>
+          <th>Solvency II</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>RULE_1</code> Date Not Null</td><td><span class="badge b-comp">COMPLETENESS</span></td><td>Date field must be populated</td><td><span class="bcbs">P3</span> <span class="bcbs">P4</span></td><td><span class="solv">Pillar1</span> <span class="solv">QRT</span></td></tr>
+        <tr><td><code>RULE_2</code> String Not Null</td><td><span class="badge b-comp">COMPLETENESS</span></td><td>Text field must not be blank</td><td><span class="bcbs">P3</span> <span class="bcbs">P4</span></td><td><span class="solv">Pillar1</span> <span class="solv">QRT</span></td></tr>
+        <tr><td><code>RULE_3</code> Numeric Not Null</td><td><span class="badge b-comp">COMPLETENESS</span></td><td>Numeric field must be populated</td><td><span class="bcbs">P3</span> <span class="bcbs">P4</span></td><td><span class="solv">Pillar1</span></td></tr>
+        <tr><td><code>RULE_10</code> Numeric Non-Negative</td><td><span class="badge b-acc">ACCURACY</span></td><td>Amount must be &ge; 0</td><td><span class="bcbs">P3</span></td><td><span class="solv">Pillar1</span></td></tr>
+        <tr><td><code>RULE_11</code> Numeric Positive</td><td><span class="badge b-acc">ACCURACY</span></td><td>Amount must be &gt; 0</td><td><span class="bcbs">P3</span></td><td><span class="solv">Pillar1</span></td></tr>
+        <tr><td><code>RULE_12</code> Date Not Future</td><td><span class="badge b-acc">ACCURACY</span></td><td>Date must not be ahead of today</td><td><span class="bcbs">P3</span></td><td><span class="solv">QRT</span></td></tr>
+        <tr><td><code>RULE_13</code> Date Within Past Limit</td><td><span class="badge b-acc">ACCURACY</span></td><td>Date must be within 10 years past</td><td><span class="bcbs">P3</span> <span class="bcbs">P5</span></td><td><span class="solv">Pillar1</span></td></tr>
+        <tr><td><code>RULE_14</code> Date Within Future Limit</td><td><span class="badge b-acc">ACCURACY</span></td><td>Date must be within 10 years future</td><td><span class="bcbs">P3</span></td><td><span class="solv">QRT</span></td></tr>
+        <tr><td><code>RULE_20</code> ISO Country Code</td><td><span class="badge b-val">VALIDITY</span></td><td>Must match ISO 3166-1 alpha-2 format</td><td><span class="bcbs">P3</span></td><td><span class="solv">QRT</span></td></tr>
+        <tr><td><code>RULE_21</code> Boolean Flag</td><td><span class="badge b-val">VALIDITY</span></td><td>Must be 0 or 1 only</td><td><span class="bcbs">P3</span></td><td><span class="solv">Pillar2</span></td></tr>
+        <tr><td><code>RULE_30</code> Unique Identifier</td><td><span class="badge b-uniq">UNIQUENESS</span></td><td>Field must have no duplicates</td><td><span class="bcbs">P3</span></td><td><span class="solv">Pillar1</span></td></tr>
+        <tr><td><code>RULE_40</code> Temporal Window Consistency</td><td><span class="badge b-cons">CONSISTENCY</span></td><td>3-month metric must not exceed 12-month</td><td><span class="bcbs">P3</span></td><td><span class="solv">Pillar3</span></td></tr>
+        <tr><td><code>RULE_41</code> Positive Amount if Count Non-Zero</td><td><span class="badge b-acc">ACCURACY</span></td><td>Amount must be &gt; 0 when count &gt; 0</td><td><span class="bcbs">P2</span></td><td><span class="solv">Pillar1</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.8rem; color:var(--muted); margin-top:8px;">Rules 40 and 41 were introduced by the <code>fund_trans_gold</code> entity and are now available to all entities.</p>
+
+  <!-- Entities -->
+  <h2>&#127970; Entities Onboarded</h2>
+  <div class="entity-grid">
+
+    <div class="entity-card ec-cg">
+      <div class="ec-header">&#128100; customer_gold</div>
+      <div class="ec-body">
+        <div class="ec-row"><span class="k">Source table</span><span class="v"><code>dbdemos_fsi_credit.customer_gold</code></span></div>
+        <div class="ec-row"><span class="k">Owner department</span><span class="v">Dept. Master Data</span></div>
+        <div class="ec-row"><span class="k">Owner</span><span class="v">Mr. Alex Smith</span></div>
+        <div class="ec-row"><span class="k">Rules mapped</span><span class="v">25 (IDs 101-125)</span></div>
+        <div class="ec-row"><span class="k">Rows evaluated</span><span class="v">49,818 (status = 1 active customers)</span></div>
+        <div class="ec-row"><span class="k">Overall Pass %</span><span class="v pass-good">93.71%</span></div>
+        <div class="ec-row"><span class="k">Active breaches</span><span class="v pass-warn">3 (passport_expiry, join_date, document_id)</span></div>
+        <div class="ec-row"><span class="k">Schedule</span><span class="v">On-demand</span></div>
+        <h4 style="margin-top:12px;">Rule breakdown</h4>
+        <div class="ec-row"><span class="k"><span class="badge b-uniq">UNIQUENESS</span></span><span class="v">101-103 &mdash; id, cust_id, email</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-comp">COMPLETENESS</span></span><span class="v">104-110, 113, 121, 123 &mdash; identifiers, names, dates, income</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-acc">ACCURACY</span></span><span class="v">111-112, 114-120, 122, 124 &mdash; date ranges, balances, income</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-val">VALIDITY</span></span><span class="v">125 &mdash; is_resident (boolean 0 or 1)</span></div>
+      </div>
+    </div>
+
+    <div class="entity-card ec-ftg">
+      <div class="ec-header">&#128200; fund_trans_gold</div>
+      <div class="ec-body">
+        <div class="ec-row"><span class="k">Source table</span><span class="v"><code>dbdemos_fsi_credit.fund_trans_gold</code></span></div>
+        <div class="ec-row"><span class="k">Owner department</span><span class="v">Dept. Transaction Data</span></div>
+        <div class="ec-row"><span class="k">Owner</span><span class="v">Mr. Alex Smith</span></div>
+        <div class="ec-row"><span class="k">Rules mapped</span><span class="v">18 (IDs 201-218)</span></div>
+        <div class="ec-row"><span class="k">Rows evaluated</span><span class="v">100,000 (no status filter)</span></div>
+        <div class="ec-row"><span class="k">Overall Pass %</span><span class="v pass-warn">19.98% (data sparsity)</span></div>
+        <div class="ec-row"><span class="k">Active breaches</span><span class="v pass-warn">Most rules (NULL metrics in data)</span></div>
+        <div class="ec-row"><span class="k">Schedule</span><span class="v">Daily 07:00 UTC</span></div>
+        <h4 style="margin-top:12px;">Rule breakdown</h4>
+        <div class="ec-row"><span class="k"><span class="badge b-uniq">UNIQUENESS</span></span><span class="v">201 &mdash; cust_id</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-comp">COMPLETENESS</span></span><span class="v">202-205 &mdash; sent/rcvd count and amount (12m)</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-acc">ACCURACY</span></span><span class="v">206-211, 216-218 &mdash; amounts &ge; 0; amount &gt; 0 when count &gt; 0</span></div>
+        <div class="ec-row"><span class="k"><span class="badge b-cons">CONSISTENCY</span></span><span class="v">212-215 &mdash; 3m must not exceed 12m window</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pipeline tasks -->
+  <h2>&#9654; DQ Pipeline - 4 Notebook Tasks per Entity</h2>
+  <div class="task-strip">
+    <div class="task task-1">
+      <span class="t-num">1</span>
+      <span class="t-name">Setup</span>
+      <span class="t-nb">00_setup.py</span>
+      <span class="t-desc">Creates registry tables, seeds rules and mappings, CTAS source Gold data. Entity-specific, generated from config.</span>
+    </div>
+    <div class="task task-2">
+      <span class="t-num">2</span>
+      <span class="t-name">Apply Rules</span>
+      <span class="t-nb">01_apply_dq_rules.py</span>
+      <span class="t-desc">Evaluates every mapped rule row-by-row. Writes <code>&lt;entity&gt;_dq</code> with a <code>DQ_RESULT</code> string column. Shared notebook.</span>
+    </div>
+    <div class="task task-3">
+      <span class="t-num">3</span>
+      <span class="t-name">Aggregate</span>
+      <span class="t-nb">02_aggregate_dq_results.py</span>
+      <span class="t-desc">Sums pass/fail counts per rule. Appends one row per rule to <code>dq_results</code> audit log. Shared notebook.</span>
+    </div>
+    <div class="task task-4">
+      <span class="t-num">4</span>
+      <span class="t-name">Dashboard</span>
+      <span class="t-nb">03_dq_dashboard.py</span>
+      <span class="t-desc">Builds summary, category breakdown, per-rule detail, and breach register views. Shared notebook.</span>
+    </div>
+  </div>
+  <p style="font-size:0.8rem; color:var(--muted); margin-top:10px;">Tasks 2-4 are <strong>shared notebooks</strong> reused by every entity. Task 1 is <strong>generated automatically</strong> from the entity config file - no manual coding required.</p>
+
+  <!-- Mermaid diagram -->
+  <h2>&#128640; Process: Adding a New Entity</h2>
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart TD
+    A([Business Request:\nOnboard new entity]) --> B
+
+    subgraph DESIGN["1 - Design Phase  Data Steward"]
+        B["Identify source Gold table\ne.g. loan_gold"]
+        B --> C["Define rule mappings:\nWhich fields? Which rules?\nWhat pass threshold?"]
+        C --> D["Assign ownership:\nOwner department and user"]
+        D --> E["Create entity config file\ndq_framework/entity_configs/loan_gold.py"]
+        E --> F{"Need new generic\nrule types?"}
+        F -- Yes --> G["Define NEW_GENERIC_RULES\nin entity config\nMERGEd into shared registry"]
+        F -- No --> H
+        G --> H["Config ready\nMAPPINGS list complete"]
+    end
+
+    subgraph ONBOARD["2 - Onboarding Phase  onboard_entity.py"]
+        H --> I["python onboard_entity.py\n--entity loan_gold"]
+        I --> J["Generate 00_setup.py\nfrom entity config\nauto-coded, no manual edits"]
+        J --> K["Upload shared notebooks\n01/02/03 to DQ_Business_shared\nskipped if already present"]
+        K --> L["Upload entity 00_setup\nto DQ_Business_loan_gold workspace folder"]
+        L --> M["Create Databricks Job\nDQ_loan_gold\n4 tasks wired automatically"]
+        M --> N{"Schedule\nconfigured?"}
+        N -- Yes --> O["Set cron schedule\ne.g. daily 07:00 UTC"]
+        N -- No --> P
+        O --> P["Trigger first run\nand poll to completion"]
+    end
+
+    subgraph PIPELINE["3 - First Pipeline Run  Databricks Job"]
+        P --> Q["Task 1: 00_setup\nCreate registry tables\nSeed rules and mappings\nCTAS source Gold data"]
+        Q --> R["Task 2: 01_apply_dq_rules\nApply all mapped rules\nRow-by-row evaluation\nWrite loan_gold_dq table"]
+        R --> S["Task 3: 02_aggregate\nSum pass/fail per rule\nAppend to dq_results audit log"]
+        S --> T["Task 4: 03_dq_dashboard\nBuild summary views\nFlag breaches vs threshold"]
+    end
+
+    subgraph REPORTING["4 - Reporting Phase"]
+        T --> U["Deploy AI/BI Dashboard\nDQ Dashboard - loan_gold\nPublished automatically"]
+        U --> V["Business reviews:\nOverall Pass %\nCategory breakdown\nBreach register"]
+    end
+
+    subgraph ONGOING["5 - Ongoing Monitoring"]
+        V --> W{"Breaches\nfound?"}
+        W -- Yes --> X["Data team investigates\nFix upstream data issue\nRe-run job to verify"]
+        W -- No --> Y["Scheduled runs continue\nTrend tracked in dq_results\nDashboard always current"]
+        X --> Y
+    end
+
+    style DESIGN    fill:#e8f4e8,stroke:#2d7a2d,color:#000000
+    style ONBOARD   fill:#e8f0fb,stroke:#2d4fa3,color:#000000
+    style PIPELINE  fill:#fff8e1,stroke:#a37a2d,color:#000000
+    style REPORTING fill:#fce8e8,stroke:#a32d2d,color:#000000
+    style ONGOING   fill:#f0f0ff,stroke:#5050a0,color:#000000
+    </div>
+  </div>
+
+  <!-- DQ Result format -->
+  <h2>&#128203; DQ Result Format</h2>
+  <p style="font-size:0.9rem; color:var(--muted); margin-bottom:12px;">Each row in <code>&lt;entity&gt;_dq</code> retains all original columns plus a pipe-delimited <code>DQ_RESULT</code> string:</p>
+  <div class="code-block"><span class="cm">-- Example DQ_RESULT column value for one customer row:</span>
+<span class="st">RULE_101: 1 | RULE_102: 1 | RULE_103: 0 | RULE_109: NULL | RULE_114: 1 | ...</span>
+
+<span class="cm">-- Meaning of each value:</span>
+<span class="kw">1</span>    = Rule passed for this row
+<span class="kw">0</span>    = Rule failed - breach recorded in dq_results
+<span class="kw">NULL</span> = Rule not applicable (row excluded by status filter)</div>
+
+  <!-- Registry tables -->
+  <h2>&#128196; Registry Tables - Shared Across All Entities</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Table</th><th>Populated by</th><th>Content</th></tr></thead>
+      <tbody>
+        <tr><td><code>dq_rules_generic</code></td><td>00_setup (MERGE)</td><td>13 generic rule types with BCBS239 / Solvency II metadata</td></tr>
+        <tr><td><code>dq_validation_request</code></td><td>00_setup (MERGE)</td><td>One row per entity - request ID, short name, owner details</td></tr>
+        <tr><td><code>dq_rule_mappings</code></td><td>00_setup (MERGE)</td><td>Field-level rule assignments with thresholds and department owners</td></tr>
+        <tr><td><code>dq_results</code></td><td>02_aggregate (INSERT)</td><td>Append-only audit log - one row per rule per run, retained forever</td></tr>
+        <tr><td><code>&lt;entity&gt;_dq</code></td><td>01_apply (overwrite)</td><td>Source table rows enriched with DQ_RESULT pipe-delimited string column</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.8rem; color:var(--muted); margin-top:8px;">All registry tables use MERGE (not INSERT) for idempotent, collision-safe multi-entity operation.</p>
+
+  <!-- Regulatory alignment -->
+  <h2>&#9878; Regulatory Alignment</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Regulation</th><th>Principle / Pillar</th><th>Business Requirement</th><th>Framework Rules</th></tr></thead>
+      <tbody>
+        <tr><td><span class="bcbs">BCBS239 P2</span></td><td>Accuracy</td><td>Data is correct and reliable</td><td>RULE_10, RULE_11, RULE_41 (amount integrity)</td></tr>
+        <tr><td><span class="bcbs">BCBS239 P3</span></td><td>Completeness</td><td>No missing or blank data</td><td>RULE_1, RULE_2, RULE_3 (null checks)</td></tr>
+        <tr><td><span class="bcbs">BCBS239 P4</span></td><td>Timeliness</td><td>Data is current and within expected date ranges</td><td>RULE_12, RULE_13, RULE_14 (date range checks)</td></tr>
+        <tr><td><span class="bcbs">BCBS239 P5</span></td><td>Adaptability</td><td>Framework can be extended without rework</td><td>New entities onboarded in minutes, new rules via config</td></tr>
+        <tr><td><span class="solv">Solvency II Pillar 1</span></td><td>Quantitative requirements</td><td>Financial amounts and balances are valid</td><td>All financial amount and balance rules</td></tr>
+        <tr><td><span class="solv">Solvency II Pillar 2</span></td><td>Governance and supervision</td><td>Clear data ownership and accountability</td><td>Owner and department tracked per rule in dq_rule_mappings</td></tr>
+        <tr><td><span class="solv">Solvency II Pillar 3</span></td><td>Reporting - QRT templates</td><td>Consistency and format standards for regulatory reporting</td><td>RULE_40 (window consistency), RULE_20 (ISO codes), date rules</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Quick ref -->
+  <h2>&#9889; Quick Reference - Onboarding a New Entity</h2>
+  <div class="code-block"><span class="cm"># 1. Create entity config</span>
+<span class="cm">#    dq_framework/entity_configs/&lt;entity_name&gt;.py</span>
+<span class="cm">#    Define: ENTITY, SOURCE_CATALOG, SOURCE_SCHEMA, MAPPINGS, NEW_GENERIC_RULES, SCHEDULE_CRON</span>
+
+<span class="cm"># 2. Run onboarding - generates code, uploads, creates job, first run, deploys dashboard</span>
+<span class="kw">python</span> dq_framework/onboard_entity.py --entity &lt;entity_name&gt;
+
+<span class="cm"># 3. Optional flags</span>
+<span class="kw">python</span> dq_framework/onboard_entity.py --entity &lt;entity_name&gt; --no-run         <span class="cm"># skip first run</span>
+<span class="kw">python</span> dq_framework/onboard_entity.py --entity &lt;entity_name&gt; --no-dashboard   <span class="cm"># skip dashboard</span>
+<span class="kw">python</span> dq_framework/onboard_entity.py --entity &lt;entity_name&gt; --force-upload   <span class="cm"># re-upload shared notebooks</span>
+
+<span class="cm"># Job naming:        DQ_&lt;entity_name&gt;   e.g.  DQ_loan_gold</span>
+<span class="cm"># Rule ID block:     101-1xx customer | 201-2xx fund_trans | 301+ next entity</span></div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>Generated 2026-03-06 &nbsp;|&nbsp; DQ Framework - BCBS239 / Solvency II &nbsp;|&nbsp; Databricks Lakehouse (Azure)</p>
+</footer>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: true, htmlLabels: true } });
+</script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schema Summary: dbdemos_fsi_credit</title>
+  <style>
+    :root {
+      --primary: #e85b0e;
+      --primary-dark: #c04a08;
+      --bronze: #cd7f32;
+      --silver: #6b8ca8;
+      --gold: #c9a84c;
+      --ml: #5a9e6f;
+      --ops: #888;
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --border: #e2e5ea;
+      --text: #1a1d23;
+      --text-muted: #5a6070;
+      --code-bg: #f0f2f5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 0 60px;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1d23 0%, #2c3142 100%);
+      color: #fff;
+      padding: 40px 48px 32px;
+      border-bottom: 4px solid var(--primary);
+    }
+    header h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; }
+    header .subtitle { color: #a0aab8; margin-top: 6px; font-size: 0.95rem; }
+    header .meta { margin-top: 14px; display: flex; gap: 24px; flex-wrap: wrap; }
+    header .meta span {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.82rem;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      color: #d0dbe8;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 .icon { font-size: 1.1rem; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 28px 0 10px; color: var(--text-muted); }
+
+    /* Stats row */
+    .stats { display: flex; gap: 16px; flex-wrap: wrap; margin: 28px 0 0; }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+    }
+    .stat-card .num { font-size: 2rem; font-weight: 800; color: var(--primary); }
+    .stat-card .lbl { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Industry badge */
+    .industry-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-top: 28px;
+    }
+    .industry-box strong { color: var(--primary); font-size: 1.05rem; }
+    .industry-box p { color: var(--text-muted); margin-top: 6px; font-size: 0.93rem; }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin-top: 16px; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; background: var(--card); }
+    thead { background: #f0f2f5; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tbody tr:nth-child(even) { background: #fafbfc; }
+    tbody tr:hover { background: #f0f4ff; }
+    td { padding: 9px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+    td code, th code {
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      background: var(--code-bg);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.82rem;
+    }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; font-family: monospace; }
+
+    /* Layer badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .badge-bronze { background: #fdf0e0; color: #96540a; border: 1px solid #f5cfa0; }
+    .badge-silver { background: #e8f0f6; color: #3a6080; border: 1px solid #b8d0e4; }
+    .badge-gold   { background: #fdf8e0; color: #7a6010; border: 1px solid #e8d888; }
+    .badge-ml     { background: #e8f5ee; color: #2d6e45; border: 1px solid #a8d8b8; }
+    .badge-ops    { background: #f0f0f0; color: #555; border: 1px solid #ccc; }
+    .badge-internal { background: #f5f5f5; color: #888; border: 1px solid #ddd; }
+
+    /* Architecture diagram */
+    .arch {
+      background: #1a1d23;
+      color: #e0e6f0;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.83rem;
+      padding: 24px 28px;
+      border-radius: 10px;
+      margin-top: 16px;
+      line-height: 1.9;
+      overflow-x: auto;
+    }
+    .arch .layer-bronze { color: #e8a060; }
+    .arch .layer-silver { color: #88b8d8; }
+    .arch .layer-gold   { color: #e8d070; }
+    .arch .layer-ml     { color: #78d898; }
+    .arch .layer-target { color: #f08080; }
+    .arch .comment { color: #5a6888; }
+
+    /* Domain cards */
+    .domain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin-top: 16px; }
+    .domain-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .domain-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .domain-card .source { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; font-family: monospace; }
+    .domain-card ul { padding-left: 16px; font-size: 0.82rem; color: var(--text-muted); }
+    .domain-card ul li { margin-bottom: 2px; }
+
+    footer { margin-top: 56px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Schema Summary: dbdemos_fsi_credit</h1>
+  <div class="subtitle">Databricks Demos - Financial Services Industry / Credit Risk</div>
+  <div class="meta">
+    <span>Catalog: databricks_snippets_7405610928938750</span>
+    <span>Schema: dbdemos_fsi_credit</span>
+    <span>Generated: 2026-03-06</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><div class="num">17</div><div class="lbl">User-facing tables</div></div>
+    <div class="stat-card"><div class="num">100K</div><div class="lbl">Unique customers</div></div>
+    <div class="stat-card"><div class="num">62</div><div class="lbl">ML features</div></div>
+    <div class="stat-card"><div class="num">13,479</div><div class="lbl">Labeled training rows</div></div>
+    <div class="stat-card"><div class="num">~850K</div><div class="lbl">Total rows (all tables)</div></div>
+  </div>
+
+  <!-- Industry -->
+  <div class="industry-box">
+    <strong>Financial Services (FSI) - Credit Risk / Credit Decisioning</strong>
+    <p>A Databricks Demos reference dataset demonstrating an end-to-end credit risk ML pipeline using the Medallion architecture (Bronze &rarr; Silver &rarr; Gold &rarr; Feature Store &rarr; ML Training). The target use case is predicting <strong>customer loan default</strong>.</p>
+  </div>
+
+  <!-- Table inventory -->
+  <h2><span class="icon">&#128194;</span> Table Inventory &amp; Row Counts</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Table</th>
+          <th>Type</th>
+          <th style="text-align:right">Rows</th>
+          <th>Key Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>account_bronze</code></td><td>STREAMING_TABLE</td><td class="num">152,000</td><td>Raw account data (includes CDC ops)</td></tr>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>credit_bureau_bronze</code></td><td>STREAMING_TABLE</td><td class="num">49,440</td><td>External credit bureau records</td></tr>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>customer_bronze</code></td><td>STREAMING_TABLE</td><td class="num">100,000</td><td>Raw customer ingestion</td></tr>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>fund_trans_bronze</code></td><td>STREAMING_TABLE</td><td class="num">43,896</td><td>Raw fund transactions</td></tr>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>relationship_bronze</code></td><td>STREAMING_TABLE</td><td class="num">100,000</td><td>Customer-product relationship data</td></tr>
+        <tr><td><span class="badge badge-bronze">Bronze</span></td><td><code>telco_bronze</code></td><td>STREAMING_TABLE</td><td class="num">53,324</td><td>Telecoms / phone billing data</td></tr>
+        <tr><td><span class="badge badge-silver">Silver</span></td><td><code>account_silver</code></td><td>MATERIALIZED_VIEW</td><td class="num">100,000</td><td>Deduplicated accounts</td></tr>
+        <tr><td><span class="badge badge-silver">Silver</span></td><td><code>customer_silver</code></td><td>MATERIALIZED_VIEW</td><td class="num">100,000</td><td>Cleansed customers</td></tr>
+        <tr><td><span class="badge badge-silver">Silver</span></td><td><code>fund_trans_silver</code></td><td>MATERIALIZED_VIEW</td><td class="num">43,896</td><td>Cleansed transactions</td></tr>
+        <tr><td><span class="badge badge-gold">Gold</span></td><td><code>credit_bureau_gold</code></td><td>MATERIALIZED_VIEW</td><td class="num">49,440</td><td>Aggregated bureau profile</td></tr>
+        <tr><td><span class="badge badge-gold">Gold</span></td><td><code>customer_gold</code></td><td>MATERIALIZED_VIEW</td><td class="num">100,000</td><td>Full Customer 360 (59 cols)</td></tr>
+        <tr><td><span class="badge badge-gold">Gold</span></td><td><code>fund_trans_gold</code></td><td>MATERIALIZED_VIEW</td><td class="num">100,000</td><td>Aggregated txn features (3/6/12m)</td></tr>
+        <tr><td><span class="badge badge-gold">Gold</span></td><td><code>telco_gold</code></td><td>MATERIALIZED_VIEW</td><td class="num">53,326</td><td>Aggregated phone billing behavior</td></tr>
+        <tr><td><span class="badge badge-ml">ML</span></td><td><code>credit_decisioning_features</code></td><td>MANAGED</td><td class="num">100,000</td><td>Feature Store table (62 features)</td></tr>
+        <tr><td><span class="badge badge-ml">ML</span></td><td><code>credit_risk_train_df</code></td><td>MANAGED</td><td class="num">13,479</td><td>Labeled training set (<code>defaulted</code> column)</td></tr>
+        <tr><td><span class="badge badge-ml">ML</span></td><td><code>feature_definitions</code></td><td>MANAGED</td><td class="num">61</td><td>Feature metadata registry</td></tr>
+        <tr><td><span class="badge badge-ops">Ops</span></td><td><code>dbdemos_credit_event_logs</code></td><td>MANAGED</td><td class="num">407</td><td>Pipeline event / audit logs</td></tr>
+        <tr><td><span class="badge badge-internal">Internal</span></td><td><code>__materialization_* (x11)</code></td><td>MANAGED</td><td class="num">-</td><td>DLT / SDP internal materialization tables</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Architecture -->
+  <h2><span class="icon">&#9881;</span> Architecture Pattern</h2>
+  <div class="arch">
+<span class="comment">-- Lakeflow / DLT Spark Declarative Pipeline</span>
+
+<span class="layer-bronze">Kafka / Auto Loader</span>
+        |
+<span class="layer-bronze">Bronze  (Streaming Tables)       &lt;-- account, customer, credit_bureau, fund_trans, relationship, telco</span>
+        |
+<span class="layer-silver">Silver  (Materialized Views)     &lt;-- dedup + cleanse</span>
+        |
+<span class="layer-gold">Gold    (Materialized Views)     &lt;-- aggregated 360-view per customer</span>
+        |
+<span class="layer-ml">credit_decisioning_features      &lt;-- Feature Store (join of all Gold, 62 features)</span>
+        |
+<span class="layer-ml">credit_risk_train_df             &lt;-- labeled subset for ML training (13,479 rows)</span>
+        |
+<span class="layer-target">ML Model: Credit Default Prediction  (target: defaulted = 1 / 0)</span>
+  </div>
+
+  <!-- Domain breakdown -->
+  <h2><span class="icon">&#128202;</span> Data Domain Breakdown</h2>
+  <div class="domain-grid">
+
+    <div class="domain-card">
+      <h4>Customer Demographics</h4>
+      <div class="source">customer_gold (59 cols)</div>
+      <ul>
+        <li>age, gender, education, marital_status</li>
+        <li>is_resident, months_employment</li>
+        <li>months_current_address, join_date</li>
+        <li>passport_expiry, visa_expiry, document_id</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>Financials &amp; Relationships</h4>
+      <div class="source">relationship_bronze &rarr; customer_gold</div>
+      <ul>
+        <li>income_monthly, income_annual, tot_assets</li>
+        <li>debt_income_rt_w/wo_mortgage</li>
+        <li>total_cards, total_loans, total_mortgages</li>
+        <li>card/loan balance &amp; limit amounts</li>
+        <li>overdraft_balance, total_deposits, total_equity</li>
+        <li>customer_revenue, revenue_12m, customer_score</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>Account Behavior</h4>
+      <div class="source">account_bronze &rarr; account_silver</div>
+      <ul>
+        <li>num_accs (number of accounts)</li>
+        <li>avg_balance, balance_usd</li>
+        <li>available_balance_usd</li>
+        <li>CDC operation tracking</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>Credit Bureau</h4>
+      <div class="source">credit_bureau_gold (16 cols)</div>
+      <ul>
+        <li>AMT_CREDIT_SUM, AMT_CREDIT_SUM_DEBT</li>
+        <li>AMT_CREDIT_MAX_OVERDUE, AMT_CREDIT_SUM_OVERDUE</li>
+        <li>CREDIT_DAY_OVERDUE, CNT_CREDIT_PROLONG</li>
+        <li>DAYS_CREDIT, DAYS_CREDIT_ENDDATE</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>Fund Transactions</h4>
+      <div class="source">fund_trans_gold (25 cols)</div>
+      <ul>
+        <li>Sent txn count &amp; amount (3m / 6m / 12m)</li>
+        <li>Received txn count &amp; amount (3m / 6m / 12m)</li>
+        <li>Distinct payer/payee counts per window</li>
+        <li>Average sent/received amounts per window</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>Telecoms Behavior</h4>
+      <div class="source">telco_gold (10 cols)</div>
+      <ul>
+        <li>phone_bill_amt, avg_phone_bill_amt_lst12mo</li>
+        <li>number_payment_delays_last12mo</li>
+        <li>pct_increase_annual_number_of_delays_last_3_year</li>
+        <li>is_pre_paid, callers, callees</li>
+      </ul>
+    </div>
+
+    <div class="domain-card">
+      <h4>ML Features &amp; Target</h4>
+      <div class="source">credit_decisioning_features / credit_risk_train_df</div>
+      <ul>
+        <li>62 features combining all domains above</li>
+        <li>Derived: ratio_txn_amt_3m_12m, ratio_txn_amt_6m_12m</li>
+        <li>Aggregated totals: tot_txn_cnt/amt (3m/6m/12m)</li>
+        <li><strong>Target:</strong> defaulted (1 = defaulted, 0 = not)</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Key column reference -->
+  <h2><span class="icon">&#128269;</span> Key Column Reference</h2>
+
+  <h3>customer_gold - 59 columns (Customer 360)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Column(s)</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code>, <code>cust_id</code></td><td>INT</td><td>Customer identifiers (join key)</td></tr>
+        <tr><td><code>first_name</code>, <code>last_name</code>, <code>email</code></td><td>STRING</td><td>Personal identifiers</td></tr>
+        <tr><td><code>gender</code>, <code>education</code>, <code>marital_status</code></td><td>STRING/INT</td><td>Demographics</td></tr>
+        <tr><td><code>join_date</code>, <code>passport_expiry</code>, <code>visa_expiry</code></td><td>DATE</td><td>Key dates</td></tr>
+        <tr><td><code>status</code>, <code>is_resident</code></td><td>INT</td><td>Customer status flags</td></tr>
+        <tr><td><code>months_current_address</code>, <code>months_employment</code></td><td>INT</td><td>Stability indicators</td></tr>
+        <tr><td><code>income_monthly</code>, <code>income_annual</code></td><td>INT</td><td>Income metrics</td></tr>
+        <tr><td><code>tot_assets</code>, <code>tot_rel_bal</code></td><td>INT/DOUBLE</td><td>Asset &amp; relationship balance</td></tr>
+        <tr><td><code>debt_income_rt_w_mortgage</code>, <code>debt_income_rt_wo_mortgage</code></td><td>DOUBLE</td><td>Debt-to-income ratios</td></tr>
+        <tr><td><code>total_cards</code>, <code>total_loans</code>, <code>total_mortgages</code></td><td>INT</td><td>Product counts</td></tr>
+        <tr><td><code>card_balance_amount</code>, <code>loan_balance_amount</code></td><td>DOUBLE</td><td>Outstanding balances</td></tr>
+        <tr><td><code>card_limit_amount</code>, <code>loan_limit_amount</code></td><td>DOUBLE</td><td>Credit limits</td></tr>
+        <tr><td><code>overdraft_balance_amount</code>, <code>overdraft_number</code></td><td>DOUBLE/INT</td><td>Overdraft exposure</td></tr>
+        <tr><td><code>total_deposits_number</code>, <code>total_deposits_amount</code></td><td>INT/DOUBLE</td><td>Deposit behavior</td></tr>
+        <tr><td><code>total_equity_amount</code>, <code>total_UT</code></td><td>DOUBLE</td><td>Investments (equity, unit trusts)</td></tr>
+        <tr><td><code>customer_revenue</code>, <code>revenue_12m</code>, <code>revenue_tot</code></td><td>DOUBLE</td><td>Revenue metrics</td></tr>
+        <tr><td><code>customer_score</code></td><td>INT</td><td>Internal credit score</td></tr>
+        <tr><td><code>avg_balance</code>, <code>balance_usd</code>, <code>available_balance_usd</code></td><td>DOUBLE</td><td>Account aggregates (from account_silver)</td></tr>
+        <tr><td><code>num_accs</code></td><td>LONG</td><td>Number of accounts</td></tr>
+        <tr><td><code>birth_year</code></td><td>INT</td><td>Year of birth</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>credit_risk_train_df - 62 columns (ML Training Set)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>defaulted</code></td><td>INT</td><td><strong>ML target: 1 = defaulted, 0 = not defaulted</strong></td></tr>
+        <tr><td><code>education</code>, <code>marital_status</code>, <code>is_resident</code></td><td>INT</td><td>Demographics</td></tr>
+        <tr><td><code>months_current_address</code>, <code>months_employment</code></td><td>INT</td><td>Stability</td></tr>
+        <tr><td><code>tenure_months</code>, <code>product_cnt</code></td><td>INT</td><td>Relationship depth</td></tr>
+        <tr><td><code>income_annual</code>, <code>tot_assets</code>, <code>tot_rel_bal</code></td><td>INT/DOUBLE</td><td>Financial standing</td></tr>
+        <tr><td><code>overdraft_balance_amount</code>, <code>overdraft_number</code></td><td>DOUBLE/INT</td><td>Overdraft risk</td></tr>
+        <tr><td><code>total_deposits_number</code>, <code>total_deposits_amount</code></td><td>INT/DOUBLE</td><td>Deposit behavior</td></tr>
+        <tr><td><code>total_equity_amount</code>, <code>total_UT</code></td><td>DOUBLE</td><td>Investments</td></tr>
+        <tr><td><code>age</code>, <code>avg_balance</code>, <code>balance_usd</code></td><td>INT/DOUBLE</td><td>Customer profile</td></tr>
+        <tr><td><code>is_pre_paid</code>, <code>phone_bill_amt</code>, <code>number_payment_delays_last12mo</code></td><td>LONG/DOUBLE</td><td>Telecoms signals</td></tr>
+        <tr><td><code>sent_txn_cnt_12m/6m/3m</code>, <code>sent_txn_amt_12m/6m/3m</code></td><td>LONG/DOUBLE</td><td>Outbound transaction behavior</td></tr>
+        <tr><td><code>rcvd_txn_cnt_12m/6m/3m</code>, <code>rcvd_txn_amt_12m/6m/3m</code></td><td>LONG/DOUBLE</td><td>Inbound transaction behavior</td></tr>
+        <tr><td><code>tot_txn_cnt_12m/6m/3m</code>, <code>tot_txn_amt_12m/6m/3m</code></td><td>LONG/DOUBLE</td><td>Total transaction aggregates</td></tr>
+        <tr><td><code>ratio_txn_amt_3m_12m</code>, <code>ratio_txn_amt_6m_12m</code></td><td>DOUBLE</td><td>Derived velocity ratios</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Key facts -->
+  <h2><span class="icon">&#128204;</span> Key Facts</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fact</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Core entity</td><td>100,000 unique customers</td></tr>
+        <tr><td>ML task</td><td>Binary classification - predict <code>defaulted</code> (1 / 0)</td></tr>
+        <tr><td>Training set size</td><td>13,479 labeled examples (~13.5% of 100K customers)</td></tr>
+        <tr><td>Feature count</td><td>62 features per customer</td></tr>
+        <tr><td>Pipeline type</td><td>Lakeflow / DLT Spark Declarative Pipeline</td></tr>
+        <tr><td>Table types</td><td>STREAMING_TABLE (Bronze), MATERIALIZED_VIEW (Silver/Gold), MANAGED (ML)</td></tr>
+        <tr><td>Total user-facing rows</td><td>~850K across all main tables</td></tr>
+        <tr><td>Internal DLT tables</td><td>11 x <code>__materialization_*</code> tables (pipeline internals)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>Generated 2026-03-06 | databricks_snippets_7405610928938750.dbdemos_fsi_credit | Databricks Demos FSI Credit Risk</p>
+</footer>
+
+</body>
+</html>

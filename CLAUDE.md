@@ -179,6 +179,21 @@ SQL Warehouse: `94cbf5bc4ec73e30` (serverless_x_small)
 
 ---
 
+# DQ Pipeline - telco_gold
+
+Databricks Job ID: `151477433032032`
+Job name: `DQ_telco_gold`
+Schedule: Daily 07:00 UTC
+Workspace path: `/Users/andre.r23@gmx.net/DQ_Business_telco_gold/`
+Catalog/Schema: `databricks_snippets_7405610928938750.dbdemos_dq_business_arausch`
+Source Schema: `dbdemos_fsi_credit`
+Local notebooks: `AI_Coding_Agent_for_Databricks/dq_telco_gold_notebooks/`
+AI/BI Dashboard ID: `01f11968fb1a177a8800c0b034a2c3a7`
+SQL Warehouse: `94cbf5bc4ec73e30` (serverless_x_small)
+Rule mappings: 301-310 (10 rules)
+
+---
+
 # DQ Pipeline - fund_trans_gold
 
 Databricks Job ID: `1034780455321659`

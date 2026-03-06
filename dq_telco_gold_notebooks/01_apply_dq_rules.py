@@ -14,7 +14,7 @@
 
 # MAGIC
 
-# MAGIC DQ_RESULT format: "RULE_301: 1 | RULE_302: 1 | RULE_310: 0"
+# MAGIC DQ_RESULT format: "RULE_301: 1 | RULE_302: 0 | RULE_303: N"  (1=pass, 0=fail, N=not applicable)
 
 # MAGIC   1 = rule passed
 
@@ -214,7 +214,7 @@ for m in mappings:
     tmp_col = f"_DQ_{m.rule_mapping_id}"
     label   = f"RULE_{m.rule_mapping_id}"
     segments.append(
-        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: NULL"))
+        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: N"))
          .otherwise(F.concat(F.lit(f"{label}: "), F.col(tmp_col).cast("string")))
     )
 
