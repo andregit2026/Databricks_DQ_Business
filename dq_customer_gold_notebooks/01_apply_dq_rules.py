@@ -14,7 +14,7 @@
 
 # MAGIC
 
-# MAGIC DQ_RESULT format: "RULE_101: 1 | RULE_102: 0 | RULE_103: NULL"
+# MAGIC DQ_RESULT format: "RULE_101: 1 | RULE_102: 0 | RULE_103: N"
 
 # MAGIC   1    = rule passed
 
@@ -312,7 +312,7 @@ for m in mappings:
 
 # COMMAND ----------
 
-# Build single DQ_RESULT column: "RULE_101: 1 | RULE_102: 0 | RULE_103: NULL"
+# Build single DQ_RESULT column: "RULE_101: 1 | RULE_102: 0 | RULE_103: N"
 
 segments = []
 
@@ -324,7 +324,7 @@ for m in mappings:
 
     segments.append(
 
-        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: NULL"))
+        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: N"))
 
          .otherwise(F.concat(F.lit(f"{label}: "), F.col(tmp_col).cast("string")))
 

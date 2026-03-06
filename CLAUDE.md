@@ -168,7 +168,7 @@ databricks auth env
 
 # DQ Pipeline - customer_gold
 
-Databricks Job ID (full pipeline): `124280927257761`
+Databricks Job ID (full pipeline): `445133855667275`
 Databricks Job ID (reporting only - 02+03): `810857234872302`
 Workspace path: `/Users/andre.r23@gmx.net/DQ_Business/`
 Catalog/Schema: `databricks_snippets_7405610928938750.dbdemos_dq_business_arausch`
@@ -196,8 +196,8 @@ Rule mappings: 301-310 (10 rules)
 
 # DQ Pipeline - fund_trans_gold
 
-Databricks Job ID: `1034780455321659`
-Job name: `DQ_fund_trans_gold` (target — currently deployed as `DQ_BCBS239_SolvencyII_fund_trans_gold`)
+Databricks Job ID: `504688172823248`
+Job name: `DQ_fund_trans_gold`
 Schedule: Daily 07:00 UTC
 Workspace path: `/Users/andre.r23@gmx.net/DQ_Business_fund_trans_gold/`
 Catalog/Schema: `databricks_snippets_7405610928938750.dbdemos_dq_business_arausch`

@@ -40,7 +40,7 @@ def db_request(method, path, body=None):
         raise
 
 # -- Create workspace directory ---------------------------------------------
-workspace_dir = "DQ_Business"
+workspace_dir = "/Users/andre.r23@gmx.net/DQ_Business"
 print(f"\nCreating workspace directory: {workspace_dir}")
 try:
     db_request("POST", "workspace/mkdirs", {"path": workspace_dir})

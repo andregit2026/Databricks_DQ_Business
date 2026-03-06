@@ -221,7 +221,7 @@ for m in mappings:
     tmp_col = f"_DQ_{m.rule_mapping_id}"
     label   = f"RULE_{m.rule_mapping_id}"
     segments.append(
-        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: NULL"))
+        F.when(F.col(tmp_col).isNull(), F.lit(f"{label}: N"))
          .otherwise(F.concat(F.lit(f"{label}: "), F.col(tmp_col).cast("string")))
     )
 
