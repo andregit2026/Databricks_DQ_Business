@@ -62,6 +62,25 @@ The tables below show live sample data from a single DQ pipeline run against the
 
 ---
 
+#### `customer_gold_dq` - DQ_RESULT Column Example (single row)
+
+Each row in `customer_gold_dq` gets a `DQ_RESULT` string column. One entry per rule, pipe-delimited:
+- `1` = pass
+- `0` = fail
+- `N` = not applicable (row was skipped due to `status != 1`)
+
+```
+RULE_101: 1 | RULE_102: 1 | RULE_103: 1 | RULE_104: 1 | RULE_105: 1 |
+RULE_106: 1 | RULE_107: 1 | RULE_108: 1 | RULE_109: 0 | RULE_110: 1 |
+RULE_111: 1 | RULE_112: 0 | RULE_113: 1 | RULE_114: 1 | RULE_115: 1 |
+RULE_116: 1 | RULE_117: 1 | RULE_118: 1 | RULE_119: 1 | RULE_120: 1 |
+RULE_121: 1 | RULE_122: 1 | RULE_123: 1 | RULE_124: 1 | RULE_125: 1
+```
+
+> In this example the customer has a NULL `document_id` (RULE_109: 0) and a `join_date` outside the allowed past range (RULE_112: 0). All other 23 checks pass.
+
+---
+
 #### `dq_results` - Audit Log (first 10 rows from `customer_gold` run, 2026-03-01)
 
 | Run ID | Execution Timestamp | DQ Rule | Relevant Records | Passed |
