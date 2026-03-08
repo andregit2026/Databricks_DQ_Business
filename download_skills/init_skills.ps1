@@ -119,32 +119,30 @@ foreach ($src in $mcpSkills.Keys) {
     Install-Skill -TargetName $mcpSkills[$src] -Url "$mcpBase/$src/SKILL.md"
 }
 
-# -- Source 2: ai-dev-kit (16 skills, already named correctly) -----------------
+# -- Source 2: ai-dev-kit (skills from the ai-dev-kit repository) --------------
 # Downloaded second - overwrites Source 1 where they overlap (ai-dev-kit wins).
+# These are downloaded with their original names but installed with 'general-skill' prefix.
 $aiBase    = "https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/databricks-skills"
-$aiSkills  = @(
-    "databricks-general-skill-aibi-dashboards"
-    "databricks-general-skill-bundle-deploy"
-    "databricks-general-skill-data-engineering"
-    "databricks-general-skill-dbsql"
-    "databricks-general-skill-genie"
-    "databricks-general-skill-jobs"
-    "databricks-general-skill-ml-pipeline"
-    "databricks-general-skill-mlflow-evaluation"
-    "databricks-general-skill-model-serving"
-    "databricks-general-skill-python-sdk"
-    "databricks-general-skill-spark-declarative-pipelines"
-    "databricks-general-skill-spark-structured-streaming"
-    "databricks-general-skill-synthetic-data-generation"
-    "databricks-general-skill-testing"
-    "databricks-general-skill-unity-catalog"
-    "databricks-general-skill-vector-search"
-)
+$aiSkills  = [ordered]@{
+    "databricks-aibi-dashboards"                = "databricks-general-skill-aibi-dashboards"
+    "databricks-asset-bundles"                  = "databricks-general-skill-bundle-deploy"
+    "databricks-dbsql"                          = "databricks-general-skill-dbsql"
+    "databricks-genie"                          = "databricks-general-skill-genie"
+    "databricks-jobs"                           = "databricks-general-skill-jobs"
+    "databricks-mlflow-evaluation"              = "databricks-general-skill-mlflow-evaluation"
+    "databricks-model-serving"                  = "databricks-general-skill-model-serving"
+    "databricks-python-sdk"                     = "databricks-general-skill-python-sdk"
+    "databricks-spark-declarative-pipelines"    = "databricks-general-skill-spark-declarative-pipelines"
+    "databricks-spark-structured-streaming"     = "databricks-general-skill-spark-structured-streaming"
+    "databricks-synthetic-data-gen"             = "databricks-general-skill-synthetic-data-generation"
+    "databricks-unity-catalog"                  = "databricks-general-skill-unity-catalog"
+    "databricks-vector-search"                  = "databricks-general-skill-vector-search"
+}
 
 Write-Host ""
 Write-Host "Source 2: ai-dev-kit  ($($aiSkills.Count) skills)" -ForegroundColor Yellow
-foreach ($skill in $aiSkills) {
-    Install-Skill -TargetName $skill -Url "$aiBase/$skill/SKILL.md"
+foreach ($src in $aiSkills.Keys) {
+    Install-Skill -TargetName $aiSkills[$src] -Url "$aiBase/$src/SKILL.md"
 }
 
 # -- Source 3: Custom skills from project (copy, never overwrite by default) ---
